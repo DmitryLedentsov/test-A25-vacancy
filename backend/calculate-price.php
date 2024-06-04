@@ -3,12 +3,6 @@
 include('sdbh.php');
 $dbh = new sdbh();
 
-// Получаем данные для селектора продуктов
-$products = $dbh->make_query("SELECT ID, NAME, PRICE, TARIFF FROM a25_products");
-
-// Получаем данные для дополнительных услуг
-$services_result = $dbh->make_query("SELECT set_value FROM a25_settings WHERE set_key='services'");
-$services = unserialize($dbh->mselect_rows('a25_settings', ['set_key' => 'services'], 0, 1, 'id')[0]['set_value']);
 
 // Функция для вычисления стоимости продукта с учетом тарифа
 function calculateProductPrice($base_price, $tariffs, $days) {
@@ -41,6 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = $_POST;
 
+
+    // Получаем данные для селектора продуктов
+    $products = $dbh->make_query("SELECT ID, NAME, PRICE, TARIFF FROM a25_products");
 
     file_put_contents(__DIR__.'/received-data', print_r($data, true));
     $product_id = intval($data['product']);

@@ -1,10 +1,12 @@
 Array
 (
     [product] => 1
-    [days] => 16
+    [days] => 3
     [services] => Array
         (
-            [0] => 600
+            [0] => 300
+            [1] => 600
+            [2] => 0
         )
 
 )
