@@ -11,23 +11,27 @@ $services_result = $dbh->make_query("SELECT set_value FROM a25_settings WHERE se
 $services = unserialize($dbh->mselect_rows('a25_settings', ['set_key' => 'services'], 0, 1, 'id')[0]['set_value']);
 
 // Функция для вычисления стоимости продукта с учетом тарифа
-function calculateProductPrice($price, $tariffs, $days) {
+function calculateProductPrice($base_price, $tariffs, $days) {
     if (!$tariffs) {
-        return $price * $days;
+        return $base_price * $days;
     }
 
-    $price_per_day = $price;
-    $tarif = json_decode($tariffs, true);
+    $price_per_day = $base_price;
+
+    file_put_contents(__DIR__.'/tariff-data', print_r([
+        "tariffs"=>$tariffs, "base"=>$base_price, "days"=>$days
+    ], true));
     
-    // Determine the price based on the number of days
-    if ($tarif) {
-        foreach ($tarif as $days_range => $price) {
-            list($min_days, $max_days) = explode('-', $days_range);
-            if ($days >= $min_days && $days <= $max_days) {
-                break;
-            }
+    $cur_range_price = array_values($tariffs)[0];
+    foreach ($tariffs as $days_range => $price) {
+        
+        if ($days_range >= $days) {
+            $price_per_day = $cur_range_price; 
+            break;
         }
+        $cur_range_price = $price;
     }
+    
 
     return $price_per_day * $days;
 }
@@ -46,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Получаем информацию о выбранном продукте
     $product_query = $dbh->make_query("SELECT PRICE, TARIFF FROM a25_products WHERE ID=$product_id");
     $product_price = $product_query[0]['PRICE'];
-    $product_tariffs = $product_query[0]['TARIFF'];
+    $product_tariffs = unserialize($product_query[0]['TARIFF']);
 
     // Вычисляем стоимость продукта
     $total_price = calculateProductPrice($product_price, $product_tariffs, $days);
