@@ -9,19 +9,17 @@ $(function(){
 
         console.log('sending: ' + data);
         $result.attr('hidden',true);
+
         $.ajax({
-			url: "./backend/calculate-price.php", type: "POST", data: data,
+			url: "./backend/calculate-price.php", 
+            type: "POST",
+            data: data,
 			success: function(response) {
                 console.log("received:");
 				console.log(response);
 				$result.attr('hidden',false);
                 $result.html(response);
-
 			},
 		});
-
-        
     })
-
-
 });
