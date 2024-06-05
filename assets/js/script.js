@@ -11,7 +11,7 @@ $(function(){
         $result.attr('hidden',true);
 
         $.ajax({
-			url: "./backend/calculate-price.php", 
+			url: "./request/calculate-price.php", 
             type: "POST",
             data: data,
 			success: function(response) {
