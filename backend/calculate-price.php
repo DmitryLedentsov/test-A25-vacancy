@@ -12,9 +12,9 @@ function calculateProductPrice($base_price, $tariffs, $days) {
 
     $price_per_day = $base_price;
 
-    file_put_contents(__DIR__.'/tariff-data', print_r([
-        "tariffs"=>$tariffs, "base"=>$base_price, "days"=>$days
-    ], true));
+    //file_put_contents(__DIR__.'/tariff-data', print_r([
+    //    "tariffs"=>$tariffs, "base"=>$base_price, "days"=>$days
+    //], true));
     
     //идем последовательно по граничным значениям начиная с первого, и запоминаем на каком тарифе сейчас находимся
     $cur_range_price = array_values($tariffs)[0];
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Получаем данные для селектора продуктов
     $products = $dbh->make_query("SELECT ID, NAME, PRICE, TARIFF FROM a25_products");
 
-    file_put_contents(__DIR__.'/received-data', print_r($data, true));
+    //file_put_contents(__DIR__.'/received-data', print_r($data, true));
     $product_id = intval($data['product']);
     $days = intval($data['days']);
     $additional_services = isset($data['services']) ? $data['services'] : [];

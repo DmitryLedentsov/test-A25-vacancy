@@ -55,6 +55,7 @@ $dbh = new sdbh();
                         <button type="submit" class="btn btn-primary mt-3">Рассчитать</button>
                     </form>
                 </div>
+                <!-- сюда пишем результат -->
                 <h4 id="result" hidden></h4>
             </div> 
         </div> 
