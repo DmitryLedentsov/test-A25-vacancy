@@ -42,7 +42,7 @@ $dbh = new sdbh();
                         <label for="days" class="form-label mt-3">Количество дней:</label>
                         <input type="number" class="form-control" name="days" id="days" min="1" max="30" required>
                             
-                        <label class="form-label mt-3">Дополнительно:</label>
+                        <?php if ($services): ?> <label class="form-label mt-3">Дополнительно:</label> <?php endif?>
                         <?php foreach ($services as $name=>$cost): ?>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="services[]" value="<?= $cost ?>" id="service-<?= $name  ?>">
