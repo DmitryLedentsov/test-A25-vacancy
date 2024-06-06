@@ -15,7 +15,7 @@ function calculateProductPrice($base_price, $tariffs, $days) {
     $cur_range_price = array_values($tariffs)[0];
     foreach ($tariffs as $days_range => $price) {
         
-        if ($days_range >= $days) { //перевалили за данное кол-во дней -> выбираем тариф и останавливаемся
+        if ($days_range > $days) { //перевалили за данное кол-во дней -> выбираем тариф и останавливаемся
             $price_per_day = $cur_range_price; 
             break;
         }
